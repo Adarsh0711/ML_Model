@@ -16,7 +16,7 @@ def preprocess_input(df):
     df_processed[num_cols] = scaler.transform(df_processed[num_cols])
     return df_processed
 
-st.title('Predict STRUCTURETYPE')
+st.title('Predict Building Structure Type')
 
 METRO3 = st.selectbox('METRO3', ["1", "2", "3", "4", "5"])
 REGION = st.selectbox('REGION', ["1", "2", "3", "4"])
@@ -38,7 +38,7 @@ COSTMED = st.number_input('COSTMED')
 BURDEN = st.number_input('BURDEN')
 INCRELAMIPCT = st.number_input('INCRELAMIPCT')
 
-if st.button('Predict STRUCTURETYPE'):
+if st.button('Predict Structure Type'):
     input_data = {
         'METRO3': [METRO3], 'REGION': [REGION], 'ZADEQ': [ZADEQ], 'ASSISTED': [ASSISTED], 'TENURE': [TENURE],
         'AGE1': [AGE1], 'LMED': [LMED], 'FMR': [FMR], 'BEDRMS': [BEDRMS], 'VALUE': [VALUE], 'ROOMS': [ROOMS], 
@@ -64,4 +64,4 @@ if st.button('Predict STRUCTURETYPE'):
 
     prediction = model.predict(processed_input)
 
-    st.write(f'Predicted STRUCTURETYPE: {prediction[0]}')
+    st.write('Predicted Structure Type: ', prediction[0])
