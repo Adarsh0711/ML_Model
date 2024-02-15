@@ -69,7 +69,7 @@ if st.button('Predict Structure Type'):
     if prediction[0]==0:
         predicted_value="Single Unit"
     elif prediction[0]==1:
-        predicted_value="2-4 Unit Building
+        predicted_value="2-4 Unit Building"
     elif prediction[0]==2:
         predicted_value="5-19 Unit Building"
     elif prediction[0]==3:
