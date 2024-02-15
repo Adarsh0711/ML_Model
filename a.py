@@ -6,16 +6,14 @@ from sklearn.preprocessing import StandardScaler
 
 with open('lr.pkl', 'rb') as file:
     model = pickle.load(file)
-with open('scalar.pkl', 'rb') as file:
+with open('scaler.pkl', 'rb') as file:
     scaler = pickle.load(file)
 
 def preprocess_input(df):
     df_processed = pd.get_dummies(df, columns=['METRO3', 'REGION', 'ZADEQ', 'ASSISTED', 'TENURE'], 
                                   prefix=['METRO3', 'REGION', 'ZADEQ', 'ASSISTED', 'TENURE'])
-    
     num_cols = ['AGE1', 'LMED', 'FMR', 'BEDRMS', 'VALUE', 'ROOMS', 'ZINC2', 'ZSMHC', 'UTILITY', 'OTHERCOST', 'COSTMED', 'BURDEN', 'INCRELAMIPCT']
     df_processed[num_cols] = scaler.transform(df_processed[num_cols])
-    
     return df_processed
 
 st.title('Predict STRUCTURETYPE')
@@ -48,8 +46,21 @@ if st.button('Predict STRUCTURETYPE'):
         'BURDEN': [BURDEN], 'INCRELAMIPCT': [INCRELAMIPCT]
     }
     df_user_input = pd.DataFrame.from_dict(input_data)
-    
     processed_input = preprocess_input(df_user_input)
+
+    expected_columns = [
+    'AGE1', 'LMED', 'FMR', 'BEDRMS', 'VALUE', 'ROOMS', 'ZINC2', 'ZSMHC', 'UTILITY', 'OTHERCOST', 'COSTMED', 'BURDEN', 'INCRELAMIPCT', 
+    "METRO3_'1'", "METRO3_'2'", "METRO3_'3'", "METRO3_'4'", "METRO3_'5'", 
+    "REGION_'1'", "REGION_'2'", "REGION_'3'", "REGION_'4'", 
+    'ZADEQ_adequate', 'ZADEQ_moderately inadequate', 'ZADEQ_severely inadequate', 
+    'ASSISTED_Assisted', 'ASSISTED_Not Assisted', 'ASSISTED_Unknown', 
+    'TENURE_Owner-occupied', 'TENURE_Rented']
+
+    for col in expected_columns:
+        if col not in processed_input.columns:
+            processed_input[col] = 0
+    
+    processed_input = processed_input[expected_columns]
 
     prediction = model.predict(processed_input)
 
