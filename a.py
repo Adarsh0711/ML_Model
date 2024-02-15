@@ -64,4 +64,21 @@ if st.button('Predict Structure Type'):
 
     prediction = model.predict(processed_input)
 
-    st.write('Predicted Structure Type: ', prediction[0])
+    predicted_value=''
+    
+    if prediction[0]==0:
+        predicted_value="Single Unit"
+    elif prediction[0]==1:
+        predicted_value="2-4 Unit Building
+    elif prediction[0]==2:
+        predicted_value="5-19 Unit Building"
+    elif prediction[0]==3:
+        predicted_value= "20-49 Unit Building"
+    elif prediction[0]==4:
+        predicted_value="50+ Unit Building"
+    elif prediction[0]==5:
+        predicted_value= "Mobile Home"
+    else:
+        predicted_value="Unknown"
+
+    st.write('Predicted Structure Type: ', predicted_value)
